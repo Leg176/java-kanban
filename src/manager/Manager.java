@@ -50,11 +50,12 @@ public class Manager {
         if (listTask.containsKey(idDel)) {
             listTask.remove(idDel);
         } else if (listSubtask.containsKey(idDel)) {
-            ArrayList<Integer> newListSubtaskEpic = listEpic.get(listSubtask.get(idDel).getIdEpic()).getListSubtaskEpic();
+            Subtask subtaskToDelete = listSubtask.get(idDel);
+            Epic epic = listEpic.get(subtaskToDelete.getIdEpic());
+            ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
             newListSubtaskEpic.remove((Integer) idDel);
-            listEpic.get(listSubtask.get(idDel).getIdEpic()).setListSubtaskEpic(newListSubtaskEpic);
             listSubtask.remove(idDel);
-            updateStatusEpic(listSubtask.get(idDel).getIdEpic());
+            updateStatusEpic(epic.getId());
         } else if (listEpic.containsKey(idDel)) {
             ArrayList<Integer> idSubtaskEpic = listEpic.get(idDel).getListSubtaskEpic();
             for (int idSubtask : idSubtaskEpic) {
@@ -65,24 +66,26 @@ public class Manager {
     }
 
     // Вывод подзадач по номеру эпичной задачи
-    public void getListSubtask (int idEpic) {
+    public ArrayList<Subtask> getListSubtask (int idEpic) {
         if (listEpic.containsKey(idEpic)) {
+            ArrayList<Subtask> listSubtasks = new ArrayList<>();
             ArrayList<Integer> idSubtaskEpic = listEpic.get(idEpic).getListSubtaskEpic();
             for (int idSubtask : idSubtaskEpic) {
-                listSubtask.get(idSubtask);
+                listSubtasks.add(listSubtask.get(idSubtask));
             }
+            return listSubtasks;
         }
+        return new ArrayList<>();
     }
 
     // Добавление подзадачи
     public Subtask createSubtask(Subtask subtask) {
-        int newId = getCounterId();
-        subtask.setId(newId);
         Epic epic = listEpic.get(subtask.getIdEpic());
         if (epic != null) {
+            int newId = getCounterId();
+            subtask.setId(newId);
             ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
             newListSubtaskEpic.add(subtask.getId());
-            epic.setListSubtaskEpic(newListSubtaskEpic);
             listSubtask.put(subtask.getId(), subtask);
             updateStatusEpic(subtask.getIdEpic());
             return subtask;
@@ -119,37 +122,37 @@ public class Manager {
     }
 
     // Обновление эпика по номеру Id эпика
-    public void updateEpic(Epic epic, String name, String description) {
-        epic.setName(name);
-        epic.setDescription(description);
-        listEpic.put(epic.getId(), epic);
+    public void updateEpic(Epic epic) {
+        Epic oldEpic = listEpic.get(epic.getId());
+        oldEpic.setName(epic.getName());
+        oldEpic.setDescription(epic.getDescription());
     }
 
     // Обновление статуса эпической задачи
     protected void updateStatusEpic(int idEpic) {
-        ArrayList<Integer> numbersSubtaskInEpik = getEpicById(idEpic).getListSubtaskEpic();
-        int quantitySubtask = numbersSubtaskInEpik.size();
+        Epic epic = listEpic.get(idEpic);
+        ArrayList<Subtask> epicSubtasks =  getListSubtask(idEpic);
+        int quantitySubtask = epicSubtasks.size();
             if (quantitySubtask == 0) {
-                getEpicById(idEpic).setStatus(Status.NEW);
+                epic.setStatus(Status.NEW);
             } else if (quantitySubtask == 1) {
-                listSubtask.get(numbersSubtaskInEpik.get(0));
-                getEpicById(idEpic).setStatus(listSubtask.get(numbersSubtaskInEpik.get(0)).getStatus());
+                epic.setStatus(listSubtask.get(epicSubtasks.get(0)).getStatus());
             } else {
                 int countDone = 0;
                 int countNEW = 0;
                 for (int i = 0; i < quantitySubtask; i++) {
-                    if (listSubtask.get(numbersSubtaskInEpik.get(i)).getIdEpic() == getEpicById(idEpic).getId() && listSubtask.get(numbersSubtaskInEpik.get(i)).getStatus() == Status.DONE) {
+                    if (epicSubtasks.get(i).getStatus() == Status.DONE) {
                         countDone++;
-                    } else if (listSubtask.get(numbersSubtaskInEpik.get(i)).getIdEpic() == getEpicById(idEpic).getId() && listSubtask.get(numbersSubtaskInEpik.get(i)).getStatus() == Status.NEW) {
+                    } else if (epicSubtasks.get(i).getStatus() == Status.NEW) {
                         countNEW++;
                     }
                 }
                 if (countDone == quantitySubtask) {
-                    getEpicById(idEpic).setStatus(Status.DONE);
-                } else if (countNEW >= 1 && countNEW != quantitySubtask) {
-                    getEpicById(idEpic).setStatus(Status.IN_PROGRESS);
+                    epic.setStatus(Status.DONE);
+                } else if ((countNEW == quantitySubtask)) {
+                    epic.setStatus(Status.NEW);
                 } else {
-                    getEpicById(idEpic).setStatus(Status.NEW);
+                    epic.setStatus(Status.IN_PROGRESS);
                 }
             }
     }
