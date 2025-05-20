@@ -8,30 +8,44 @@ import model.Status;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Manager {
+public class InMemoryTaskManager implements TaskManager {
+
     private HashMap<Integer, Task> listTask= new HashMap<>();
     private HashMap<Integer, Subtask> listSubtask= new HashMap<>();
     private HashMap<Integer, Epic> listEpic= new HashMap<>();
     private int counterId = 1;
 
+    private HistoryManager historyManager = Managers.getDefaultHistory();
+
     // Вывод задачи по номеру Id
+    @Override
     public Task getTaskById(int outputTaskId) {
-        return listTask.get(outputTaskId);
+        Task task = listTask.get(outputTaskId);
+        historyManager.addTask(task);
+        return task;
     }
 
+    @Override
     public Subtask getSubtaskById(int outputSubtaskId) {
-        return listSubtask.get(outputSubtaskId);
+        Subtask subtask = listSubtask.get(outputSubtaskId);
+        historyManager.addTask(subtask);
+        return subtask;
     }
 
+    @Override
     public Epic getEpicById(int outputEpicId) {
-        return listEpic.get(outputEpicId);
+        Epic epic = listEpic.get(outputEpicId);
+        historyManager.addTask(epic);
+        return epic;
     }
 
     // Удаление задач
+    @Override
     public void fullDelTask() {
         listTask.clear();
     }
 
+    @Override
     public void fullDelSubtask() {
         listSubtask.clear();
         for (Epic epic : listEpic.values()) {
@@ -40,12 +54,14 @@ public class Manager {
         }
     }
 
+    @Override
     public void fullDelEpic() {
         listSubtask.clear();
         listEpic.clear();
     }
 
     // Удаление задачи по номеру Id
+    @Override
     public void deleteById(int idDel) {
         if (listTask.containsKey(idDel)) {
             listTask.remove(idDel);
@@ -66,7 +82,8 @@ public class Manager {
     }
 
     // Вывод подзадач по номеру эпичной задачи
-    public ArrayList<Subtask> getListSubtask (int idEpic) {
+    @Override
+    public ArrayList<Subtask> getListSubtask(int idEpic) {
         if (listEpic.containsKey(idEpic)) {
             ArrayList<Subtask> listSubtasks = new ArrayList<>();
             ArrayList<Integer> idSubtaskEpic = listEpic.get(idEpic).getListSubtaskEpic();
@@ -79,6 +96,7 @@ public class Manager {
     }
 
     // Добавление подзадачи
+    @Override
     public Subtask createSubtask(Subtask subtask) {
         Epic epic = listEpic.get(subtask.getIdEpic());
         if (epic != null) {
@@ -95,6 +113,7 @@ public class Manager {
     }
 
     // Добавление задачи
+    @Override
     public Task createTask(Task task) {
         int newId = getCounterId();
         task.setId(newId);
@@ -103,6 +122,7 @@ public class Manager {
     }
 
     // Добавление эпической задачи
+    @Override
     public Epic createEpic(Epic epic) {
         int newId = getCounterId();
         epic.setId(newId);
@@ -111,17 +131,20 @@ public class Manager {
     }
 
     // Обновление задачи по номеру Id задачи
+    @Override
     public void updateTask(Task task) {
         listTask.put(task.getId(), task);
     }
 
     // Обновление подзадачи по номеру Id подзадачи
+    @Override
     public void updateSubTask(Subtask subtask) {
         listSubtask.put(subtask.getId(), subtask);
         updateStatusEpic(subtask.getIdEpic());
     }
 
     // Обновление эпика по номеру Id эпика
+    @Override
     public void updateEpic(Epic epic) {
         Epic oldEpic = listEpic.get(epic.getId());
         oldEpic.setName(epic.getName());
@@ -131,12 +154,10 @@ public class Manager {
     // Обновление статуса эпической задачи
     protected void updateStatusEpic(int idEpic) {
         Epic epic = listEpic.get(idEpic);
-        ArrayList<Subtask> epicSubtasks =  getListSubtask(idEpic);
+        ArrayList<Subtask> epicSubtasks = getListSubtask(idEpic);
         int quantitySubtask = epicSubtasks.size();
             if (quantitySubtask == 0) {
                 epic.setStatus(Status.NEW);
-            } else if (quantitySubtask == 1) {
-                epic.setStatus(listSubtask.get(epicSubtasks.get(0)).getStatus());
             } else {
                 int countDone = 0;
                 int countNEW = 0;
@@ -158,17 +179,26 @@ public class Manager {
     }
 
     // Вывод всех типов задач
+    @Override
     public ArrayList<Task> fullListTask() {
         return new ArrayList<Task>(listTask.values());
     }
 
+    @Override
     public ArrayList<Subtask> fullListSubtask() {
         return new ArrayList<Subtask>(listSubtask.values());
     }
 
+    @Override
     public ArrayList<Epic> fullListEpic() {
         return new ArrayList<Epic>(listEpic.values());
     }
+
+    @Override
+    public ArrayList<Task> getHistory() {
+        return historyManager.getHistory();
+    }
+
 
     private int getCounterId() {
         return counterId++;
