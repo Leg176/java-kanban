@@ -5,6 +5,7 @@ import model.Subtask;
 import model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
     // Вывод задачи по номеру Id
@@ -49,7 +50,7 @@ public interface TaskManager {
     // Обновление эпика по номеру Id эпика
     void updateEpic(Epic epic);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 
     // Вывод всех задач
     ArrayList<Task> fullListTask();

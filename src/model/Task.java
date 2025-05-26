@@ -7,14 +7,12 @@ public class Task {
     private String description;
     private int id;
     private Status status = Status.NEW;
-    ;
 
     public Task(String name, String description, Status status, int id) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.id = id;
-
     }
 
     public String getName() {
