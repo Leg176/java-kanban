@@ -9,6 +9,10 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
+    private Node head;
+    private Node tail;
+    private int size = 0;
+
     private Map<Integer, Node> listViewedTask = new HashMap<>();
 
     public void removeNode(Node node) {
@@ -44,15 +48,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (!listViewedTask.containsKey(id)) {
             return;
         } else {
-            Node nodeTask = listViewedTask.get(id);
-            removeNode(nodeTask);
-            listViewedTask.remove(id);
+            Node nodeDelTask = listViewedTask.remove(id);
+            removeNode(nodeDelTask);
         }
     }
-
-    private Node head;
-    private Node tail;
-    private int size = 0;
 
     private class Node {
 
@@ -65,7 +64,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             this.next = null;
             this.prev = null;
         }
-
     }
 
     public void linkLast(Task task) {
@@ -82,7 +80,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         size++;
     }
 
-    public List<Task> getTasks() {
+    public List<Task> getHistory() {
         List<Task> tasks = new ArrayList<>();
         Node node = head;
         while (node != null) {

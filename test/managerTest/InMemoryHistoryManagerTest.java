@@ -3,7 +3,9 @@ package managerTest;
 import manager.InMemoryHistoryManager;
 import manager.Managers;
 import manager.TaskManager;
+import model.Epic;
 import model.Status;
+import model.Subtask;
 import model.Task;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +26,7 @@ public class InMemoryHistoryManagerTest {
     @Test
     void checkingHowTheMethodForAddingTasksToTheViewedListWorks() {
         historyManager.addTask(task);
-        final List<Task> history = historyManager.getTasks();
+        final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "После добавления задачи, история не должна быть пустой.");
         assertEquals(1, history.size(), "После добавления задачи, история " +
                 "не должна быть пустой.");
@@ -32,7 +34,7 @@ public class InMemoryHistoryManagerTest {
         historyManager.addTask(task);
         historyManager.addTask(task3);
         historyManager.addTask(task1);
-        final List<Task> historyNew = historyManager.getTasks();
+        final List<Task> historyNew = historyManager.getHistory();
         assertEquals(3, historyNew.size(), "Количество задач в памяти " +
                 "не должно превышать 3");
     }
@@ -57,11 +59,11 @@ public class InMemoryHistoryManagerTest {
     void checkingHowTheMethodRemoveTasksToTheViewedListWorks() {
         historyManager.addTask(task);
         historyManager.addTask(task3);
-        final List<Task> history = historyManager.getTasks();
+        final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "После добавления задачи, история не должна быть пустой.");
         assertEquals(2, history.size(), "Количество задач в памяти не должно превышать 2");
         historyManager.remove(1);
-        final List<Task> historyNew = historyManager.getTasks();
+        final List<Task> historyNew = historyManager.getHistory();
         assertEquals(1, historyNew.size(), "Количество задач в памяти " +
                 "не должно превышать 1");
     }

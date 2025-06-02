@@ -1,5 +1,6 @@
 package managerTest;
 
+import manager.InMemoryHistoryManager;
 import manager.Managers;
 import manager.TaskManager;
 import model.Epic;
@@ -9,6 +10,7 @@ import model.Task;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -138,5 +140,54 @@ public class InMemoryTaskManagerTest {
         final ArrayList<Subtask> theListSubtaskAfterDeletion = taskManager.fullListSubtask();
         assertTrue(theListEpicAfterDeletion.isEmpty(), "Все Эпические задачи должны быть удалены!");
         assertTrue(theListSubtaskAfterDeletion.isEmpty(), "Все Подзадачи должны быть удалены!");
+    }
+
+    @Test
+    void shouldFullDeletedEpicAndTaskInHistoryViewedTask() {
+
+        taskManager.createEpic(epic);
+        taskManager.createEpic(epic1);
+
+        taskManager.createSubtask(subtask);
+        taskManager.createSubtask(subtask1);
+
+        taskManager.createTask(task);
+        taskManager.createTask(task1);
+
+        int idEpic = epic.getId();
+        int idEpic1 = epic1.getId();
+        int idSubtask = subtask.getId();
+        int idSubtask1 = subtask1.getId();
+        int idTask = task.getId();
+        int idTask1 = task1.getId();
+
+        Epic lookEpic = taskManager.getEpicById(idEpic);
+        Subtask lookSubtask = taskManager.getSubtaskById(idSubtask);
+        assertEquals(2, taskManager.getHistory().size(), "Количество задач в списках просмотренных " +
+                "в HistoryManager не совпадает с количеством просмотренных задач в TaskManager!");
+
+        taskManager.deleteById(idSubtask);
+        assertEquals(1, taskManager.getHistory().size(), "Количество задач в списках просмотренных " +
+                "в HistoryManager после удаления одной задачи(подзадачи) по id не верно");
+
+        Subtask lookSubtask2 = taskManager.getSubtaskById(idSubtask1);
+        taskManager.fullDelEpic();
+        assertEquals(0, taskManager.getHistory().size(), "Количество эпиков и подзадач в списках " +
+                "просмотренных в HistoryManager не совпадает с количеством просмотренных задач в TaskManager!");
+
+        Task lookTask = taskManager.getTaskById(idTask);
+        Task lookTask1 = taskManager.getTaskById(idTask1);
+        Task copyTask = new Task(lookTask.getName(), lookTask.getDescription(), lookTask.getStatus(), lookTask.getId());
+        assertEquals(2, taskManager.getHistory().size(), "Количество задач в списках просмотренных в " +
+                "HistoryManager не совпадает с количеством просмотренных задач в TaskManager!");
+        taskManager.deleteById(idTask);
+        List<Task> viewTask = taskManager.getHistory();
+        boolean isContains = false;
+        for (Task task : viewTask) {
+            if (task.equals(viewTask)) {
+                isContains = true;
+            }
+        }
+        assertFalse(isContains, "В список просмотренных задач попала задача удалённая из HistoryManager!");
     }
 }
