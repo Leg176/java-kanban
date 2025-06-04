@@ -7,6 +7,7 @@ import model.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -42,11 +43,17 @@ public class InMemoryTaskManager implements TaskManager {
     // Удаление задач
     @Override
     public void fullDelTask() {
+        for (Integer key : listTask.keySet()) {
+            historyManager.remove(key);
+        }
         listTask.clear();
     }
 
     @Override
     public void fullDelSubtask() {
+        for (Integer key : listSubtask.keySet()) {
+            historyManager.remove(key);
+        }
         listSubtask.clear();
         for (Epic epic : listEpic.values()) {
             epic.getListSubtaskEpic().clear();
@@ -56,6 +63,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void fullDelEpic() {
+        for (Integer key : listSubtask.keySet()) {
+            historyManager.remove(key);
+        }
+        for (Integer key : listEpic.keySet()) {
+            historyManager.remove(key);
+        }
         listSubtask.clear();
         listEpic.clear();
     }
@@ -79,6 +92,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
             listEpic.remove(idDel);
         }
+        historyManager.remove(idDel);
     }
 
     // Вывод подзадач по номеру эпичной задачи
@@ -195,7 +209,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
