@@ -208,6 +208,7 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<Epic>(listEpic.values());
     }
 
+    // Вывод истории просмотров задач
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
