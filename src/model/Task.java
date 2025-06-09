@@ -47,7 +47,7 @@ public class Task {
         this.id = id;
     }
 
-    public TypesOfTasks typeOutput (Task task) {
+    public TypesOfTasks typeOutput(Task task) {
         if (task instanceof Subtask) {
             return TypesOfTasks.SUBTASK;
         } else if (task instanceof Epic) {
