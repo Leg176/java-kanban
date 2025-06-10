@@ -50,6 +50,7 @@ public interface TaskManager {
     // Обновление эпика по номеру Id эпика
     void updateEpic(Epic epic);
 
+    // Вывод истории просмотров задач
     List<Task> getHistory();
 
     // Вывод всех задач
