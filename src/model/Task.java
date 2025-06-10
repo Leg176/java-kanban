@@ -47,23 +47,8 @@ public class Task {
         this.id = id;
     }
 
-    public TypesOfTasks typeOutput(Task task) {
-        if (task instanceof Subtask) {
-            return TypesOfTasks.SUBTASK;
-        } else if (task instanceof Epic) {
-            return TypesOfTasks.EPIC;
-        }
-        return  TypesOfTasks.TASK;
-    }
-
-    public String toString(Task task) {
-        if (task instanceof Subtask) {
-            return String.format("%s;%s;%s;%s;%s;%s", typeOutput(task), task.getName(), task.getDescription(),
-                    task.getStatus(), task.getId(), ((Subtask) task).getIdEpic());
-        } else {
-            return String.format("%s;%s;%s;%s;%s", typeOutput(task), task.getName(), task.getDescription(),
-                    task.getStatus(), task.getId());
-        }
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     @Override
@@ -76,5 +61,10 @@ public class Task {
         }
         Task task = (Task) o;
         return Objects.equals(id, task.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Task " + name + ", Описание: " + description + ", id: " + id + " , Статус: " + status + "\n";
     }
 }
