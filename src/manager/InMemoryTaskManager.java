@@ -11,9 +11,9 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private HashMap<Integer, Task> listTask = new HashMap<>();
-    private HashMap<Integer, Subtask> listSubtask = new HashMap<>();
-    private HashMap<Integer, Epic> listEpic = new HashMap<>();
+    protected HashMap<Integer, Task> listTask = new HashMap<>();
+    protected HashMap<Integer, Subtask> listSubtask = new HashMap<>();
+    protected HashMap<Integer, Epic> listEpic = new HashMap<>();
     private int counterId = 1;
 
     private HistoryManager historyManager = Managers.getDefaultHistory();
@@ -208,13 +208,13 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<Epic>(listEpic.values());
     }
 
+    // Вывод истории просмотров задач
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
-
-    private int getCounterId() {
+    public int getCounterId() {
         return counterId++;
     }
 
