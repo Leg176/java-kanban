@@ -6,8 +6,10 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
+
     // Вывод задачи по номеру Id
     Task getTaskById(int outputTaskId);
 
@@ -61,4 +63,7 @@ public interface TaskManager {
 
     // Вывод всех эпических задач
     ArrayList<Epic> fullListEpic();
+
+    // Cортировка задач по времени начала выполнения задач
+    TreeSet<Task> getPrioritizedTasks();
 }

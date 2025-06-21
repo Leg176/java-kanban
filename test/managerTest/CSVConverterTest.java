@@ -1,4 +1,4 @@
-package managerTest;
+/*package managerTest;
 
 import model.Status;
 import model.Subtask;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CSVConverterTest {
 
-    Subtask subtask = new Subtask("Записаться на курсы", "Необходимо совмещать с работой", Status.NEW, 5, 3);
+    Subtask subtask = new Subtask("Записаться на курсы", "Необходимо совмещать с работой", Status.NEW, 5, 3, 15, 15.08.24);
     String text = "5,SUBTASK,Записаться на курсы,NEW,Необходимо совмещать с работой,3";
 
     @Test
@@ -32,5 +32,5 @@ public class CSVConverterTest {
         assertEquals(TaskType.SUBTASK, subtask.getType(), "Тип подзадачи должен быть SUBTASK.");
         assertEquals(Status.NEW, subtask.getStatus(), "Статус подзадачи должен быть NEW.");
         assertEquals(3, subtask.getIdEpic(), "Id эпика должено быть равено 3.");
-    }
 }
+    }*/

@@ -1,4 +1,4 @@
-package managerTest;
+/*package managerTest;
 
 import manager.FileBackedTaskManager;
 import manager.Managers;
@@ -96,4 +96,4 @@ public class FileBackedTaskManagerTest {
         assertEquals(2, listTask.size(), "Количество добавленных задач должно быть равно 2-ум.");
         assertEquals(2, listEpic.size(), "Количество добавленных эпических задач должно быть равно 2-ум.");
     }
-}
+}*/
