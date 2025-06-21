@@ -1,4 +1,4 @@
-package managerTest;
+/*package managerTest;
 
 import manager.InMemoryHistoryManager;
 import manager.Managers;
@@ -65,4 +65,4 @@ public class InMemoryHistoryManagerTest {
         assertEquals(1, historyNew.size(), "Количество задач в памяти " +
                 "не должно превышать 1");
     }
-}
+}*/

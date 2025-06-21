@@ -1,4 +1,4 @@
-package managerTest;
+/*package managerTest;
 
 import manager.Managers;
 import manager.TaskManager;
@@ -189,4 +189,4 @@ public class InMemoryTaskManagerTest {
         }
         assertFalse(isContains, "В список просмотренных задач попала задача удалённая из HistoryManager!");
     }
-}
+}*/

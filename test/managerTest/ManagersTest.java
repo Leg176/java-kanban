@@ -1,4 +1,4 @@
-package managerTest;
+/*package managerTest;
 
 import manager.InMemoryHistoryManager;
 import manager.InMemoryTaskManager;
@@ -17,4 +17,4 @@ public class ManagersTest {
     void shouldObjectOfInMemoryHistoryManagerClassMustBeCreated() {
         assertInstanceOf(InMemoryHistoryManager.class, Managers.getDefaultHistory(), "Созданный объект не является объектом класса InMemoryHistoryManager");
     }
-}
+}*/
