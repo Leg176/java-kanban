@@ -326,7 +326,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // Проверка задач на пересечение по времени выполнения
-    public boolean intersect (Task task) {
+    public boolean intersect(Task task) {
         if (task.getStartTime() != null && task.getDuration() != null) {
             boolean isPositive = getPrioritizedTasks().stream()
                     .allMatch(taskInSet -> (taskInSet.getStartTime().isAfter(task.getEndTime()) ||
