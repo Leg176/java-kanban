@@ -123,7 +123,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask createSubtask(Subtask subtask) {
         Epic epic = listEpic.get(subtask.getIdEpic());
-        if (epic != null && !intersect(subtask)) {
+        if (epic != null && intersect(subtask)) {
             int newId = getCounterId();
             subtask.setId(newId);
             ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
@@ -150,7 +150,7 @@ public class InMemoryTaskManager implements TaskManager {
     // Добавление задачи
     @Override
     public Task createTask(Task task) {
-        if (!intersect(task)) {
+        if (intersect(task)) {
             int newId = getCounterId();
             task.setId(newId);
             listTask.put(task.getId(), task);
@@ -180,7 +180,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task task) {
         Task oldTaskCopy = listTask.get(task.getId());
         deleteById(task.getId());
-        if (!intersect(task)) {
+        if (intersect(task)) {
             listTask.put(task.getId(), task);
             prioritizedTasks.add(task);
         } else if (task.getDuration() == null && task.getStartTime() == null) {
@@ -196,7 +196,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubTask(Subtask subtask) {
         Subtask oldSubtaskCopy = listSubtask.get(subtask.getId());
         deleteById(subtask.getId());
-        if (!intersect(subtask)) {
+        if (intersect(subtask)) {
             listSubtask.put(subtask.getId(), subtask);
             prioritizedTasks.add(subtask);
             updateStatusEpic(subtask.getIdEpic());
@@ -281,20 +281,24 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setEndTime(null);
         } else {
             for (Subtask subtask : epicSubtasks) {
-                if (subtask.getStartTime() != null && epic.getStartTime() == null) {
-                    epic.setStartTime(subtask.getStartTime());
-                } else if (epic.getStartTime().isAfter(subtask.getStartTime())) {
-                    epic.setStartTime(subtask.getStartTime());
+                if (subtask.getStartTime() != null) {
+                    if (epic.getStartTime() == null) {
+                        epic.setStartTime(subtask.getStartTime());
+                    } else if (epic.getStartTime().isAfter(subtask.getStartTime())) {
+                        epic.setStartTime(subtask.getStartTime());
+                    }
                 }
-                if (epic.getEndTime() == null && subtask.getEndTime() != null) {
-                    epic.setEndTime(subtask.getEndTime());
-                } else if ((epic.getEndTime() != null && subtask.getEndTime() != null) &&
-                        epic.getEndTime().isBefore(subtask.getEndTime())) {
-                    epic.setEndTime(subtask.getEndTime());
+                    if (subtask.getEndTime() != null) {
+                        if (epic.getEndTime() == null) {
+                            epic.setEndTime(subtask.getEndTime());
+                        } else if (epic.getEndTime().isBefore(subtask.getEndTime())) {
+                            epic.setEndTime(subtask.getEndTime());
+                        }
+                    }
                 }
             }
-        }
     }
+
 /*    // Расчитываем время окончания выполнения эпической задачи
     protected void getEndTimeEpic(int idEpic) {
         Epic epic = listEpic.get(idEpic);

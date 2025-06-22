@@ -21,14 +21,6 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public Task(String name, String description, Status status, int id, Duration duration) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.id = id;
-        this.duration = duration;
-    }
-
     public Task(String name, String description, Status status, int id) {
         this.name = name;
         this.description = description;
