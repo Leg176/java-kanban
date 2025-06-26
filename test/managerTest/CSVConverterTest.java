@@ -26,7 +26,7 @@ public class CSVConverterTest {
     String text = "5,SUBTASK,Записаться на курсы,NEW,Необходимо совмещать с работой,3,15,2025.06.14 14:00";
     Subtask subtask1 = new Subtask("Записаться на курсы", "Необходимо совмещать с работой",
             Status.NEW, 5, 3);
-    String text1 = "5,SUBTASK,Записаться на курсы,NEW,Необходимо совмещать с работой,3,0,null";
+    String text1 = "5,SUBTASK,Записаться на курсы,NEW,Необходимо совмещать с работой,3,0,";
 
     @Test
     void checkingTheConversionOfTaskToString() {

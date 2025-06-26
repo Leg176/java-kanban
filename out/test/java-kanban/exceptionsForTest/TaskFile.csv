@@ -1,0 +1,12 @@
+id,type,name,status,description,epic,duration,startTime
+1,TASK,Сходить в магазин,NEW,Купить продукты,30,2025.05.08 14:00
+2,TASK,Обработать газон,NEW,Необходима фунгицидная обработка,20,2025.05.08 14:30
+3,EPIC,Пройти обучение,NEW,Получить новые знания,0,
+5,EPIC,Сдать 7-ой спринт,NEW,Выполнить проект,0,
+2,TASK,Name2,NEW,description2,10,2025.05.08 13:50
+2,TASK,Name3,NEW,description3,10,2025.05.08 14:05
+2,TASK,Name4,NEW,description4,10,2025.05.08 13:40
+2,TASK,Name5,NEW,description5,10,2025.05.08 14:35
+2,SUBTASK,Name6,NEW,description6,2,10,2025.05.08 15:05
+2,SUBTASK,Name7,NEW,description7,2,10,2025.05.08 15:20
+2,SUBTASK,Name8,DONE,description8,2,10,2025.05.08 15:35

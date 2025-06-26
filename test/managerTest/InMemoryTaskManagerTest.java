@@ -1,5 +1,6 @@
 package managerTest;
 
+import manager.FileBackedTaskManager;
 import manager.Managers;
 import manager.TaskManager;
 import model.Epic;
@@ -8,8 +9,12 @@ import model.Subtask;
 import model.Task;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InMemoryTaskManagerTest {
 
     TaskManager taskManager = Managers.getDefault();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+
     Task task = new Task("Сходить в магазин", "Купить продукты", Status.NEW, 5);
     Task task1 = new Task("Обработать газон", "Необходима фунгицидная обработка", Status.NEW, 2);
 
@@ -188,5 +195,30 @@ public class InMemoryTaskManagerTest {
             }
         }
         assertFalse(isContains, "В список просмотренных задач попала задача удалённая из HistoryManager!");
+    }
+
+    @Test
+    void shouldintersectTask() {
+        taskManager.fullDelTask();
+        taskManager = FileBackedTaskManager.loadFromFile(new File("test/exceptionsForTest/TaskFile.csv"));
+        int quantityTask = taskManager.fullListTask().size();
+        assertEquals(3, quantityTask, "Количество задач в listTask, должнобыть равно 3");
+    }
+
+    @Test
+    void shouldUpdatingTimeParametersEpic() {
+        taskManager.fullDelEpic();
+        taskManager = FileBackedTaskManager.loadFromFile(new File("test/exceptionsForTest/TaskFile.csv"));
+        int quantitySubtask = taskManager.fullListSubtask().size();
+        assertEquals(3, quantitySubtask, "Количество подзадач в listSubtask, должнобыть равно 3");
+        Epic epicUpdate = taskManager.getEpicById(2);
+        LocalDateTime startTime = epicUpdate.getStartTime();
+        LocalDateTime endTime = epicUpdate.getEndTime();
+        Long minutes = epicUpdate.getDuration().toMinutes();
+        String start = startTime.format(formatter);
+        String end = endTime.format(formatter);
+        assertEquals(30, minutes, "Продолжительность Epic, должнобыть равно 30 минут");
+        assertEquals("2025.05.08 15:05", start, "Время старта Epic, должнобыть равно 2025.05.08 15:05");
+        assertEquals("2025.05.08 15:45", end, "Время окончания Epic, должнобыть равно 2025.05.08 15:45");
     }
 }

@@ -21,7 +21,7 @@ public class CSVConverter {
         if (task.getStartTime() != null) {
             startTime = task.getStartTime().format(formatter);
         } else {
-            startTime = null;
+            startTime = "";
         }
         if (task.getType() == TaskType.SUBTASK) {
             return String.format("%s,%s,%s,%s,%s,%s,%s,%s", task.getId(), task.getType(), task.getName(),
@@ -49,7 +49,7 @@ public class CSVConverter {
                     } else {
                         duration = null;
                     }
-                    if (!elements[6].equals("null")) {
+                    if (!elements[6].equals("")) {
                         startTime = LocalDateTime.parse(elements[6], formatter);
                     } else {
                         startTime = null;
@@ -67,7 +67,7 @@ public class CSVConverter {
                     } else {
                         durationSub = null;
                     }
-                    if (!elements[7].equals("null")) {
+                    if (!elements[7].equals("")) {
                         startTimeSub = LocalDateTime.parse(elements[7], formatter);
                     } else {
                         startTimeSub = null;
@@ -82,7 +82,7 @@ public class CSVConverter {
                     } else {
                         duration = null;
                     }
-                    if (!elements[6].equals("null")) {
+                    if (!elements[6].equals("")) {
                         startTime = LocalDateTime.parse(elements[6], formatter);
                     } else {
                         startTime = null;

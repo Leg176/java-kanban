@@ -132,13 +132,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 idMax = Math.max(idTask, idMax);
                 switch (task.getType()) {
                     case SUBTASK:
-                        fileBackedTaskManager.listSubtask.put(idTask, (Subtask) task);
+                    //    fileBackedTaskManager.listSubtask.put(idTask, (Subtask) task);
+                        fileBackedTaskManager.createSubtask((Subtask) task);
                         break;
                     case EPIC:
-                        fileBackedTaskManager.listEpic.put(idTask, (Epic) task);
+                    //    fileBackedTaskManager.listEpic.put(idTask, (Epic) task);
+                        fileBackedTaskManager.createEpic((Epic) task);
                         break;
                     case TASK:
-                        fileBackedTaskManager.listTask.put(idTask, task);
+                    //    fileBackedTaskManager.listTask.put(idTask, task);
+                        fileBackedTaskManager.createTask(task);
                         break;
                 }
             }
