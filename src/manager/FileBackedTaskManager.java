@@ -128,20 +128,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     continue;
                 }
                 Task task = fromString(line);
+                fileBackedTaskManager.setPrioritizedTasks(task);
                 int idTask = task.getId();
                 idMax = Math.max(idTask, idMax);
                 switch (task.getType()) {
                     case SUBTASK:
-                    //    fileBackedTaskManager.listSubtask.put(idTask, (Subtask) task);
-                        fileBackedTaskManager.createSubtask((Subtask) task);
+                        fileBackedTaskManager.listSubtask.put(idTask, (Subtask) task);
                         break;
                     case EPIC:
-                    //    fileBackedTaskManager.listEpic.put(idTask, (Epic) task);
-                        fileBackedTaskManager.createEpic((Epic) task);
+                        fileBackedTaskManager.listEpic.put(idTask, (Epic) task);
                         break;
                     case TASK:
-                    //    fileBackedTaskManager.listTask.put(idTask, task);
-                        fileBackedTaskManager.createTask(task);
+                        fileBackedTaskManager.listTask.put(idTask, task);
                         break;
                 }
             }
