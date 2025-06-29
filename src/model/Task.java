@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +9,17 @@ public class Task {
     private String description;
     private int id;
     private Status status = Status.NEW;
+    private Duration duration = null;
+    private LocalDateTime startTime = null;
+
+    public Task(String name, String description, Status status, int id, Duration duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
 
     public Task(String name, String description, Status status, int id) {
         this.name = name;
@@ -31,6 +44,18 @@ public class Task {
         return status;
     }
 
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -47,8 +72,22 @@ public class Task {
         this.id = id;
     }
 
-    public TaskType getType() {
-        return TaskType.TASK;
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return startTime.plusMinutes(duration.toMinutes());
+        } else if (startTime != null && duration == null) {
+            return startTime;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -65,6 +104,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task " + name + ", Описание: " + description + ", id: " + id + " , Статус: " + status + "\n";
+        return "Task " + name + ", Описание: " + description + ", id: " + id + ", Статус: " + status +
+                ", Длительность выполнения: " + duration + ", Время начала выполнения: " + startTime + "\n";
     }
 }

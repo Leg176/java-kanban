@@ -96,7 +96,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     // Запись в файл
     private void save() {
         try (Writer fileWriter = new FileWriter("resources/TaskBacked.csv")) {
-            fileWriter.write("id,type,name,status,description,epic" + "\n");
+            fileWriter.write("id,type,name,status,description,epic,duration,startTime" + "\n");
             if (!listTask.values().isEmpty()) {
                 for (Task task : listTask.values()) {
                     fileWriter.write(CSVConverter.transformationString(task) + "\n");
@@ -124,12 +124,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while (br.ready()) {
                 String line = br.readLine();
-                if (line.equals("id,type,name,status,description,epic")) {
+                if (line.equals("id,type,name,status,description,epic,duration,startTime")) {
                     continue;
                 }
                 Task task = fromString(line);
+                fileBackedTaskManager.setPrioritizedTasks(task);
                 int idTask = task.getId();
-                idMax = idTask > idMax ? idMax = idTask : idMax;
+                idMax = Math.max(idTask, idMax);
                 switch (task.getType()) {
                     case SUBTASK:
                         fileBackedTaskManager.listSubtask.put(idTask, (Subtask) task);

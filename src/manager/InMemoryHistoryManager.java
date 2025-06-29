@@ -34,7 +34,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) {
             return;
         }
-        Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getId());
+        Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus(), task.getId(),
+                task.getDuration(), task.getStartTime());
         if (listViewedTask.containsKey(copyTask.getId())) {
             Node node = listViewedTask.get(copyTask.getId());
             removeNode(node);

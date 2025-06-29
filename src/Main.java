@@ -4,9 +4,15 @@ import model.Status;
 import model.Subtask;
 import model.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Main {
 
     public static void main(String[] args) {
+        Duration duration = Duration.ofMinutes(15);
+        LocalDateTime loclDate = LocalDateTime.now();
+        System.out.println(duration);
         InMemoryTaskManager manager = new InMemoryTaskManager();
         Task task1 = new Task("Сходить в магазин", "Купить продукты", Status.NEW, 1);
         Task task2 = new Task("Обработать газон", "Достать опрыскиватель", Status.NEW, 2);
