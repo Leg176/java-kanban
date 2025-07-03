@@ -64,6 +64,9 @@ public interface TaskManager {
     // Вывод всех эпических задач
     ArrayList<Epic> fullListEpic();
 
-    // Cортировка задач по времени начала выполнения задач
+    // Вывод списка отсортированных задач
     TreeSet<Task> getPrioritizedTasks();
+
+    // Проверка персечения задач
+    boolean intersect(Task task);
 }
