@@ -1,4 +1,4 @@
-package httpServer;
+package api;
 
 import com.sun.net.httpserver.HttpServer;
 
