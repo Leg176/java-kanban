@@ -93,7 +93,6 @@ public class InMemoryTaskManager implements TaskManager {
             listSubtask.remove(idDel);
             updateStatusEpic(epic.getId());
             updatingTimeParametersEpic(epic.getId());
-
         } else if (listEpic.containsKey(idDel)) {
             ArrayList<Integer> idSubtaskEpic = listEpic.get(idDel).getListSubtaskEpic();
             for (int idSubtask : idSubtaskEpic) {
@@ -286,11 +285,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // Вывод списка отсортированных задач
+    @Override
     public TreeSet<Task> getPrioritizedTasks() {
         return new TreeSet<>(prioritizedTasks);
     }
 
     // Проверка задач на пересечение по времени выполнения
+    @Override
     public boolean intersect(Task task) {
         if (task.getStartTime() == null && task.getDuration() != null) {
             return false;

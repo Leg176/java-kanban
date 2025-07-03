@@ -76,7 +76,10 @@ public class CSVConverter {
                             idSubtask, idEpicInSubtask, durationSub, startTimeSub);
                     break;
                 case TASK:
-                    int idTask = Integer.parseInt(elements[0]);
+                    int idTask = 0;
+                    if (!elements[0].equals("")){
+                    idTask = Integer.parseInt(elements[0]);
+                    }
                     if (Integer.parseInt(elements[5]) != 0) {
                         duration = Duration.ofMinutes(Long.parseLong((elements[5])));
                     } else {
