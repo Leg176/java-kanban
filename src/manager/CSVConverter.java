@@ -77,7 +77,7 @@ public class CSVConverter {
                     break;
                 case TASK:
                     int idTask = 0;
-                    if (!elements[0].equals("")){
+                    if (!elements[0].equals("")) {
                     idTask = Integer.parseInt(elements[0]);
                     }
                     if (Integer.parseInt(elements[5]) != 0) {
