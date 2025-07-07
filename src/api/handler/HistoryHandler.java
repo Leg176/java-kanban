@@ -1,4 +1,4 @@
-package api;
+package api.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,17 +17,15 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "";
         try {
             System.out.println("Началась обработка /history запроса от клиента на вывод истории просмотров.");
 
             List<? extends Task> tasks = taskManager.getHistory();
-            response = gson.toJson(tasks);
+            String response = gson.toJson(tasks);
             sendText(httpExchange, response);
 
         } catch (IOException e) {
-            response = "Internal Server Error";
-            sendInternalServerError(httpExchange, response);
+            sendInternalServerError(httpExchange, "Internal Server Error");
         }
     }
 }

@@ -1,4 +1,4 @@
-package api;
+package api.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -60,13 +60,11 @@ public class TasksHandler extends BaseHttpHandler implements HttpHandler {
 
         int id = searchIdTask(httpExchange);
         Task task = taskManager.getTaskById(id);
-        String response = "";
 
         if (task == null) {
-            response = "Not Found";
-            sendNotFound(httpExchange, response);
+            sendNotFound(httpExchange, "Not Found");
         } else {
-            response = gson.toJson(task);
+            String response = gson.toJson(task);
             sendText(httpExchange, response);
         }
     }
@@ -83,8 +81,7 @@ public class TasksHandler extends BaseHttpHandler implements HttpHandler {
             if (taskManager.createTask(task) != null) {
                 sendCreated(httpExchange, gson.toJson(task));
             } else {
-                String response = "Not Acceptable";
-                sendHasInteractions(httpExchange, response);
+                sendHasInteractions(httpExchange, "Not Acceptable");
             }
         } else {
             boolean isContains = taskManager.fullListTask().stream()

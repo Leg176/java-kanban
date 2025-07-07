@@ -1,4 +1,4 @@
-package api;
+package api.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -61,13 +61,11 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
 
         int id = searchIdTask(httpExchange);
         Subtask subtask = taskManager.getSubtaskById(id);
-        String response = "";
 
         if (subtask == null) {
-            response = "Not Found";
-            sendNotFound(httpExchange, response);
+            sendNotFound(httpExchange, "Not Found");
         } else {
-            response = gson.toJson(subtask);
+            String response = gson.toJson(subtask);
             sendText(httpExchange, response);
         }
     }
@@ -89,8 +87,7 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
             if (taskManager.createSubtask(subtask) != null) {
                 sendCreated(httpExchange, gson.toJson(subtask));
             } else {
-                String response = "Not Acceptable";
-                sendHasInteractions(httpExchange, response);
+                sendHasInteractions(httpExchange, "Not Acceptable");
             }
         } else if (isContainsIdEpic) {
             boolean isContains = taskManager.fullListSubtask().stream()
@@ -100,7 +97,8 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
                 sendNotFound(httpExchange, "Подзадача с таким id в списках отсутствует");
             } else {
                 taskManager.updateSubTask(subtask);
-                sendCreated(httpExchange, gson.toJson("Подзадача успешно обновлена"));
+                String response = "Подзадача успешно обновлена";
+                sendCreated(httpExchange, gson.toJson(response));
             }
         } else {
             sendNotFound(httpExchange, "Эпическая задача с id указанном в подзадаче отсутствует");

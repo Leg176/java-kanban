@@ -1,4 +1,4 @@
-package api;
+package api.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -65,13 +65,11 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
 
         int id = searchIdTask(httpExchange);
         Epic epic = taskManager.getEpicById(id);
-        String response = "";
 
         if (epic == null) {
-            response = "Not Found";
-            sendNotFound(httpExchange, response);
+            sendNotFound(httpExchange, "Not Found");
         } else {
-            response = gson.toJson(epic);
+            String response = gson.toJson(epic);
             sendText(httpExchange, response);
         }
     }
@@ -82,15 +80,14 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
 
         int id = searchIdTask(httpExchange);
         Epic epic = taskManager.getEpicById(id);
-        String response = "";
 
         if (epic == null) {
-            response = "Not Found";
-            sendNotFound(httpExchange, response);
+            sendNotFound(httpExchange, "Not Found");
         } else {
+
             ArrayList<Subtask> subtask = taskManager.getListSubtask(id);
-            response = subtask.toString();
-            sendText(httpExchange, gson.toJson(response));
+            String response = gson.toJson(subtask);
+            sendText(httpExchange, response);
         }
     }
 
@@ -106,8 +103,7 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
             if (taskManager.createEpic(epic) != null) {
                 sendCreated(httpExchange, gson.toJson(epic));
             } else {
-                String response = "Not Acceptable";
-                sendHasInteractions(httpExchange, response);
+                sendHasInteractions(httpExchange, "Not Acceptable");
             }
         } else {
             boolean isContains = taskManager.fullListEpic().stream()

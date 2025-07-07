@@ -1,4 +1,4 @@
-package api;
+package api.handler;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,17 +17,15 @@ public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "";
         try {
             System.out.println("Началась обработка /prioritized запроса от клиента на вывод списка отсортированных задач.");
 
             TreeSet<? extends Task> prioritized = taskManager.getPrioritizedTasks();
-            response = gson.toJson(prioritized);
+            String response = gson.toJson(prioritized);
             sendText(httpExchange, response);
 
         } catch (IOException e) {
-            response = "Internal Server Error";
-            sendInternalServerError(httpExchange, response);
+            sendInternalServerError(httpExchange, "Internal Server Error");
         }
     }
 }
