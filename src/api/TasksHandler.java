@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class TasksHandler extends BaseHttpHandler implements HttpHandler {
 
-    public TasksHandler (TaskManager taskManager, Gson gson) {
+    public TasksHandler(TaskManager taskManager, Gson gson) {
         super(taskManager, gson);
           }
 
