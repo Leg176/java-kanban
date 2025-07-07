@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
 
-    public EpicsHandler (TaskManager taskManager, Gson gson) {
+    public EpicsHandler(TaskManager taskManager, Gson gson) {
         super(taskManager, gson);
     }
 
