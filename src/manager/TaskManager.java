@@ -66,7 +66,4 @@ public interface TaskManager {
 
     // Вывод списка отсортированных задач
     TreeSet<Task> getPrioritizedTasks();
-
-    // Проверка персечения задач
-    boolean intersect(Task task);
 }

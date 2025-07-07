@@ -284,15 +284,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    // Вывод списка отсортированных задач
-    @Override
-    public TreeSet<Task> getPrioritizedTasks() {
-        return new TreeSet<>(prioritizedTasks);
-    }
-
     // Проверка задач на пересечение по времени выполнения
-    @Override
-    public boolean intersect(Task task) {
+    private boolean intersect(Task task) {
         if (task.getStartTime() == null && task.getDuration() != null) {
             return false;
         } else if (task.getStartTime() != null && task.getDuration() != null) {
@@ -304,6 +297,12 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             return true;
         }
+    }
+
+    // Вывод списка отсортированных задач
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return new TreeSet<>(prioritizedTasks);
     }
 
     // Вывод всех типов задач
