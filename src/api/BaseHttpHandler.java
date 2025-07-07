@@ -59,7 +59,7 @@ public class BaseHttpHandler {
         h.close();
     }
 
-    protected int searchIdTask (HttpExchange h) {
+    protected int searchIdTask(HttpExchange h) {
         return Integer.parseInt(h.getRequestURI()
                 .getPath()
                 .split("/")[2]);
