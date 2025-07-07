@@ -6,7 +6,6 @@ import com.sun.net.httpserver.HttpHandler;
 import manager.TaskManager;
 import model.Epic;
 import model.Subtask;
-import model.Task;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +92,7 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
                 String response = "Not Acceptable";
                 sendHasInteractions(httpExchange, response);
             }
-        } else if (isContainsIdEpic){
+        } else if (isContainsIdEpic) {
             boolean isContains = taskManager.fullListSubtask().stream()
                     .map(Subtask::getId)
                     .anyMatch(i -> i == idSubtask);
