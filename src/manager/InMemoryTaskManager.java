@@ -220,11 +220,17 @@ public class InMemoryTaskManager implements TaskManager {
     private void intermediateActionsCreateSubtask(Epic epic, Subtask subtask) {
         int newId = getCounterId();
         subtask.setId(newId);
-        ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
-        newListSubtaskEpic.add(subtask.getId());
-        listSubtask.put(subtask.getId(), subtask);
-        updateStatusEpic(subtask.getIdEpic());
-        updatingTimeParametersEpic(subtask.getIdEpic());
+        try {
+            ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
+            newListSubtaskEpic.add(subtask.getId());
+        } catch (NullPointerException exp) {
+            ArrayList<Integer> newListSubtaskEpic1 = new ArrayList<>();
+            newListSubtaskEpic1.add(subtask.getId());
+            epic.setListSubtaskEpic(newListSubtaskEpic1);
+        }
+            listSubtask.put(subtask.getId(), subtask);
+            updateStatusEpic(subtask.getIdEpic());
+            updatingTimeParametersEpic(subtask.getIdEpic());
     }
 
     // Обновление статуса эпической задачи

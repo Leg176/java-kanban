@@ -7,9 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import manager.Managers;
 import manager.TaskManager;
-import model.Epic;
-import model.Subtask;
-import model.Task;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,9 +26,6 @@ public class HttpTaskServer {
                 .serializeNulls()
                 .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Task.class, new TaskAdapter())
-                .registerTypeAdapter(Subtask.class, new SubtaskAdapter())
-                .registerTypeAdapter(Epic.class, new EpicAdapter())
                 .create();
         try {
             httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
@@ -46,12 +40,12 @@ public class HttpTaskServer {
         }
     }
 
-    private void startServer() {
+    public void startServer() {
         httpServer.start();
     }
 
-    private void stopServer() {
-        httpServer.stop(30);
+    public void stopServer() {
+        httpServer.stop(0);
     }
 
     public static void main(String[] args) throws IOException {
