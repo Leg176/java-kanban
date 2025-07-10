@@ -25,6 +25,7 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
         URI requestURI = httpExchange.getRequestURI();
         String path = requestURI.getPath();
         String[] splitString = path.split("/");
+
         try {
             switch (method) {
                 case ("GET"):

@@ -17,13 +17,12 @@ public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        try {
             System.out.println("Началась обработка /prioritized запроса от клиента на вывод списка отсортированных задач.");
 
+        try {
             TreeSet<? extends Task> prioritized = taskManager.getPrioritizedTasks();
             String response = gson.toJson(prioritized);
             sendText(httpExchange, response);
-
         } catch (IOException e) {
             sendInternalServerError(httpExchange, "Internal Server Error");
         }

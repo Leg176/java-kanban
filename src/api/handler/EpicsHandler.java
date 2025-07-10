@@ -25,6 +25,7 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
         URI requestURI = httpExchange.getRequestURI();
         String path = requestURI.getPath();
         String[] splitString = path.split("/");
+
         try {
             switch (method) {
                 case ("GET"):
@@ -62,7 +63,6 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
     public void handleGetEpicId(HttpExchange httpExchange) throws IOException {
         System.out.println("Началась обработка /epics/{id} запроса от клиента на вывод эпической задачи по её id.");
 
-
         int id = searchIdTask(httpExchange);
         Epic epic = taskManager.getEpicById(id);
 
@@ -84,7 +84,6 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
         if (epic == null) {
             sendNotFound(httpExchange, "Not Found");
         } else {
-
             ArrayList<Subtask> subtask = taskManager.getListSubtask(id);
             String response = gson.toJson(subtask);
             sendText(httpExchange, response);

@@ -27,9 +27,9 @@ public class HttpTaskServer {
                 .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
+
         try {
             httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
-
             httpServer.createContext("/tasks", new TasksHandler(taskManager, gson));
             httpServer.createContext("/subtasks", new SubtasksHandler(taskManager, gson));
             httpServer.createContext("/epics", new EpicsHandler(taskManager, gson));

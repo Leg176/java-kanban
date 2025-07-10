@@ -53,7 +53,6 @@ public class BaseHttpHandler {
     protected void sendCreated(HttpExchange h, String text) throws IOException {
         byte[] response = text.getBytes(StandardCharsets.UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-
         h.sendResponseHeaders(201, response.length);
         h.getResponseBody().write(response);
         h.close();

@@ -17,13 +17,12 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        try {
             System.out.println("Началась обработка /history запроса от клиента на вывод истории просмотров.");
 
+        try {
             List<? extends Task> tasks = taskManager.getHistory();
             String response = gson.toJson(tasks);
             sendText(httpExchange, response);
-
         } catch (IOException e) {
             sendInternalServerError(httpExchange, "Internal Server Error");
         }
