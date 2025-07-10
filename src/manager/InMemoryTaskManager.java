@@ -93,7 +93,6 @@ public class InMemoryTaskManager implements TaskManager {
             listSubtask.remove(idDel);
             updateStatusEpic(epic.getId());
             updatingTimeParametersEpic(epic.getId());
-
         } else if (listEpic.containsKey(idDel)) {
             ArrayList<Integer> idSubtaskEpic = listEpic.get(idDel).getListSubtaskEpic();
             for (int idSubtask : idSubtaskEpic) {
@@ -221,11 +220,17 @@ public class InMemoryTaskManager implements TaskManager {
     private void intermediateActionsCreateSubtask(Epic epic, Subtask subtask) {
         int newId = getCounterId();
         subtask.setId(newId);
-        ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
-        newListSubtaskEpic.add(subtask.getId());
-        listSubtask.put(subtask.getId(), subtask);
-        updateStatusEpic(subtask.getIdEpic());
-        updatingTimeParametersEpic(subtask.getIdEpic());
+        try {
+            ArrayList<Integer> newListSubtaskEpic = epic.getListSubtaskEpic();
+            newListSubtaskEpic.add(subtask.getId());
+        } catch (NullPointerException exp) {
+            ArrayList<Integer> newListSubtaskEpic1 = new ArrayList<>();
+            newListSubtaskEpic1.add(subtask.getId());
+            epic.setListSubtaskEpic(newListSubtaskEpic1);
+        }
+            listSubtask.put(subtask.getId(), subtask);
+            updateStatusEpic(subtask.getIdEpic());
+            updatingTimeParametersEpic(subtask.getIdEpic());
     }
 
     // Обновление статуса эпической задачи
@@ -285,13 +290,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    // Вывод списка отсортированных задач
-    public TreeSet<Task> getPrioritizedTasks() {
-        return new TreeSet<>(prioritizedTasks);
-    }
-
     // Проверка задач на пересечение по времени выполнения
-    public boolean intersect(Task task) {
+    private boolean intersect(Task task) {
         if (task.getStartTime() == null && task.getDuration() != null) {
             return false;
         } else if (task.getStartTime() != null && task.getDuration() != null) {
@@ -303,6 +303,12 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             return true;
         }
+    }
+
+    // Вывод списка отсортированных задач
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return new TreeSet<>(prioritizedTasks);
     }
 
     // Вывод всех типов задач
